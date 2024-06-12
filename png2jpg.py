@@ -38,10 +38,10 @@ A1111_METADATA_PNG = True
 # True / False
 NOVELAI_METADATA_PNG = True
 
-# CompyUI画像の追加設定 / Additional settings for CompyUI images
+# ComfyUI画像の追加設定 / Additional settings for ComfyUI images
 # ワークフロー入力用のjsonを出力 / Output a JSON file for Workflow input
 # True / False
-COMPYUI_WORKFLOW_JSON = True
+COMFYUI_WORKFLOW_JSON = True
 # ========= Config end / 設定ここまで ==========
 
 
@@ -123,9 +123,9 @@ for file in files:
         png_info_data = ""
         json_data = ""
         for key, value in png_info.items():
-            # CompyUI形式データの場合
+            # ComfyUI形式データの場合
             if key == 'workflow':
-                if COMPYUI_WORKFLOW_JSON:
+                if COMFYUI_WORKFLOW_JSON:
                     json_data += f"{value}"
 
             # NovelAI形式データの場合

@@ -18,7 +18,7 @@
 - 元画像のメタデータ（PNG Info）は JPEG 画像の Exif に格納されます。
 - NovelAI（及び Automatic1111）入力用のダミー png(数 kB 程度)を追加で出力することができます。JPEG に変換すると他の生成 NovelAI（及び Automatic1111）に入力できなくなりますが、ダミー png を出力することで対応できます。初期設定はオンになっています（変更可）。
 
-## 3. CompyUI 生成画像の変換について
+## 3. ComfyUI 生成画像の変換について
 
 - 元画像のメタデータ（PNG Info）は JPEG 画像の Exif に格納されます。
 - Workflow 入力用の json を追加で出力することができます。JPEG に変換すると ComfyUI に入力できなくなりますが、json を出力することで対応できます。初期設定はオンになっています（変更可）。
@@ -57,10 +57,10 @@ A1111_METADATA_PNG = True
 # True / False
 NOVELAI_METADATA_PNG = True
 
-# CompyUI画像の追加設定 / Additional settings for CompyUI images
+# ComfyUI画像の追加設定 / Additional settings for ComfyUI images
 # ワークフロー入力用のjsonを出力 / Output a JSON file for Workflow input
 # True / False
-COMPYUI_WORKFLOW_JSON = True
+COMFYUI_WORKFLOW_JSON = True
 # ========= Config end / 設定ここまで ==========
 ```
 
@@ -109,6 +109,12 @@ pip install pywin32
 
 # 変更履歴
 
+## [1.0.1] - 2024-06-12
+
+### 修正
+
+- 文言修正
+
 ## [1.0.0] - 2024-06-12
 
 ### 追加
@@ -140,7 +146,7 @@ Here is the English translation of the content, with markdown formatting preserv
 - The metadata (PNG Info) of the original image is stored in the Exif of the JPEG image.
 - You can additionally output a dummy png (a few kB) for input into NovelAI (and Automatic1111). If you convert to JPEG, you won't be able to input it into NovelAI (and Automatic1111), but outputting a dummy png can address this issue. The default setting is on (changeable).
 
-## 3. About Converting CompyUI Generated Images
+## 3. About Converting ComfyUI Generated Images
 
 - The metadata (PNG Info) of the original image is stored in the Exif of the JPEG image.
 - You can additionally output a json file for Workflow input. If you convert to JPEG, you won't be able to input it into ComfyUI, but outputting a json file can address this issue. The default setting is on (changeable).
@@ -179,10 +185,10 @@ A1111_METADATA_PNG = True
 # True / False
 NOVELAI_METADATA_PNG = True
 
-# CompyUI画像の追加設定 / Additional settings for CompyUI images
+# ComfyUI画像の追加設定 / Additional settings for ComfyUI images
 # ワークフロー入力用のjsonを出力 / Output a JSON file for Workflow input
 # True / False
-COMPYUI_WORKFLOW_JSON = True
+COMFYUI_WORKFLOW_JSON = True
 # ========= Config end / 設定ここまで ==========
 ```
 
@@ -230,6 +236,12 @@ pip install pywin32
   <br><br>
 
 # Changelog
+
+## [1.0.1] - 2024-06-12
+
+### Fixed
+
+- Fixed spelling
 
 ## [1.0.0] - 2024-06-12
 
