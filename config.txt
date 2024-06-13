@@ -1,0 +1,47 @@
+# ========= Config start =========
+QUALITY = 80
+INPUT_DIR = 'inputs/'
+OUTPUT_DIR = 'outputs/'
+INCLUDE_SUBDIRS = False
+IMG_OUTPUT_FILENAME_EXT = 'jpg'
+A1111_METADATA_PNG = True
+NOVELAI_METADATA_PNG = True
+COMFYUI_WORKFLOW_JSON = True
+SKIP_EXISTING_FILES = False
+# ========== Config end ==========
+
+# 項目説明
+# QUALITY: JPEG品質 (0-100)
+# INPUT_DIR: 入力ディレクトリ (相対参照または絶対参照で指定)
+# OUTPUT_DIR: 出力ディレクトリ (相対参照または絶対参照で指定)
+# INCLUDE_SUBDIRS: サブディレクトリを含めるかどうかの設定 (出力画像は入力側と同じディレクトリ構造で保存されます)
+# IMG_OUTPUT_FILENAME_EXT: 出力画像拡張子（'jpg', 'jpeg', 'JPG', 'JPEG'）
+# A1111_METADATA_PNG: A1111画像用のダミーPNGを出力するかどうかの設定
+# NOVELAI_METADATA_PNG: NovelAI画像用のダミーPNGを出力するかどうかの設定
+# COMFYUI_WORKFLOW_JSON: ComfyUI画像用のjsonを出力するかどうかの設定
+# SKIP_EXISTING_FILES: 同名の出力ファイルが既に存在する場合にスキップするかどうかの設定
+
+# Item Description
+# QUALITY: JPEG quality (0-100)
+# INPUT_DIR: Input directory (specify as a relative or absolute path)
+# OUTPUT_DIR: Output directory (specify as a relative or absolute path)
+# INCLUDE_SUBDIRS: Setting to include subdirectories (output images will be saved with the same directory structure as the input)
+# IMG_OUTPUT_FILENAME_EXT: Output image extension ('jpg', 'jpeg', 'JPG', 'JPEG')
+# A1111_METADATA_PNG: Setting to output dummy PNG for A1111 images
+# NOVELAI_METADATA_PNG: Setting to output dummy PNG for NovelAI images
+# COMFYUI_WORKFLOW_JSON: Setting to output JSON for ComfyUI images
+# SKIP_EXISTING_FILES: Setting to skip if output files with the same name already exist
+
+# 初期設定値 / Default setting
+# QUALITY = 80
+# INPUT_DIR = 'inputs/'
+# OUTPUT_DIR = 'outputs/'
+# INCLUDE_SUBDIRS = False
+# IMG_OUTPUT_FILENAME_EXT = 'jpg'
+# A1111_METADATA_PNG = True
+# NOVELAI_METADATA_PNG = True
+# COMFYUI_WORKFLOW_JSON = True
+# SKIP_EXISTING_FILES = False
+
+
+

@@ -4,24 +4,36 @@
 
 # 日本語
 
+# 概要
+
+- AI 生成画像のメタデータを保持して PNG を JPEG に変換します。
+- サブディレクトリを含めて一括変換が可能です。
+- PNG のメタデータを取得して JPEG の Exif に移植する機能を持つため、AI 生成画像以外のでもメタデータの保持目的で使用可能です。
+  <br><br>
+
+# 特長
+
+- Automatic1111, ComfyUI, NovelAI の生成画像に対応しています。
+- 元の PNG 画像が持つメタデータを JPEG 画像の Exif に格納します。
+- 元の PNG 画像からメタデータを移植したダミー PNG(数 kB 程度)を同時に出力することが可能です。画像を変換すると生成 AI への取り込み機能が一部失われる場合がありますが、これにより機能を保持することが可能です。
+- 出力ディレクトリに同名のファイルがある場合、デフォルトでは上書き処理を行いますが、処理をスキップすることも可能です。出力ディレクトリに変換済みの画像が置いてある状態でも、追加分だけ変換が可能なため処理を軽減できます。
+  <br><br>
+
 # 説明
 
 ## 1. Automatic1111 生成画像の変換について
 
-- Automatic1111 に入力可能なメタデータを維持したまま PNG を JPEG に変換します。
-- 元画像のメタデータ（PNG Info）は JPEG 画像の Exif に格納されます。
-- JPEG 画像は元画像同様に Automatic1111 の PNG Info に読み込ませることが可能です。
-- 他生成 AI 入力用のダミー png(数 kB 程度)を追加で出力することができます。JPEG に変換すると他の生成 AI（ComfyUI 等）に入力できなくなりますが、ダミー png を出力することで対応できます。初期設定はオンになっています（変更可）。
+- JPEG 画像は元画像同様に Automatic1111 の PNG Info に読み込ませて利用することが可能です。
+- JPEG に変換すると他の生成 AI（ComfyUI 等）に読み込ませて利用することができなくなりますが、ダミー PNG を追加で出力することで入力機能を保持できます。
 
 ## 2. NovelAI 生成画像の変換について
 
-- 元画像のメタデータ（PNG Info）は JPEG 画像の Exif に格納されます。
-- NovelAI（及び Automatic1111）入力用のダミー png(数 kB 程度)を追加で出力することができます。JPEG に変換すると他の生成 NovelAI（及び Automatic1111）に入力できなくなりますが、ダミー png を出力することで対応できます。初期設定はオンになっています（変更可）。
+- JPEG に変換すると NovelAI 及び Automatic1111 に読み込ませて利用することができなくなりますが、入力用のダミー PNG(数 kB 程度)を追加で出力することで入力機能を保持できます。
+- ダミー PNG は NovelAI 及び Automatic1111 に読み込ませて利用することが可能です。
 
 ## 3. ComfyUI 生成画像の変換について
 
-- 元画像のメタデータ（PNG Info）は JPEG 画像の Exif に格納されます。
-- Workflow 入力用の json を追加で出力することができます。JPEG に変換すると ComfyUI に入力できなくなりますが、json を出力することで対応できます。初期設定はオンになっています（変更可）。
+- JPEG に変換すると ComfyUI に入力できなくなりますが、ワークフロー入力用の json を追加で出力することで入力機能を保持できます。
 
 ## 4. 日付情報について
 
@@ -31,70 +43,6 @@
 - Mac, Linux: 更新日時
   <br><br>
 
-# オプションの変更
-
-png2jpg.py 内の Config より変更可能です。
-
-```
-# ========= Config start / 設定ここから =========
-# ディレクトリ / Directories
-INPUT_DIR = 'inputs/'
-OUTPUT_DIR = 'outputs/'
-
-# JPEG品質 (0-100) / JPEG quality (0-100)
-QUALITY = 80
-
-# 出力画像拡張子（'jpg', 'jpeg', 'JPG', 'JPEG'）/ Output image file extension ('jpg', 'jpeg', 'JPG', 'JPEG')
-IMG_OUTPUT_FILENAME_EXT = 'jpg'
-
-# A1111画像の追加設定 / Additional settings for A1111 images
-# 他生成AI用のダミーpngを出力 / Output a dummy PNG file for other generation AIs
-# True / False
-A1111_METADATA_PNG = True
-
-# NovelAI画像の追加設定 / Additional settings for NovelAI images
-# NovelAI（及びA1111）入力用のダミーpngを出力 / Output a dummy PNG file for NovelAI (and A1111) input
-# True / False
-NOVELAI_METADATA_PNG = True
-
-# ComfyUI画像の追加設定 / Additional settings for ComfyUI images
-# ワークフロー入力用のjsonを出力 / Output a JSON file for Workflow input
-# True / False
-COMFYUI_WORKFLOW_JSON = True
-# ========= Config end / 設定ここまで ==========
-```
-
-# 前提
-
-Python3 環境
-<br><br>
-
-# 準備
-
-以下のライブラリを使用するため、入っていない場合はインストールします。
-
-- PIL
-
-```
-pip install pillow
-```
-
-- piexif
-
-```
-pip install piexif
-```
-
-Windows のみ
-
-- pywin32
-
-```
-pip install pywin32
-```
-
-<br>
-
 # 使い方
 
 1. inputs フォルダに変換したい PNG 画像を入れます。
@@ -102,12 +50,88 @@ pip install pywin32
 3. outputs フォルダに JPEG 画像が保存されます。
    <br><br>
 
-# 設定変更等
+# オプションの変更
+
+- config.txt より変更可能です。
+- 入力値が未入力や不正な場合はデフォルト値が適用されます。
+- Config.txt は gitignore に登録してあるため git pull で更新しても影響を受けません。
+
+## オプション項目
+
+- QUALITY: JPEG 品質 (0-100)
+- INPUT_DIR: 入力ディレクトリ (相対参照または絶対参照で指定)
+- OUTPUT_DIR: 出力ディレクトリ (相対参照または絶対参照で指定)
+- INCLUDE_SUBDIRS: サブディレクトリを含めるかどうかの設定 (出力画像は入力側と同じディレクトリ構造で保存されます)
+- IMG_OUTPUT_FILENAME_EXT: 出力画像拡張子（'jpg', 'jpeg', 'JPG', 'JPEG'）
+- A1111_METADATA_PNG: A1111 画像用のダミー PNG を出力するかどうかの設定
+- NOVELAI_METADATA_PNG: NovelAI 画像用のダミー PNG を出力するかどうかの設定
+- COMFYUI_WORKFLOW_JSON: ComfyUI 画像用の json を出力するかどうかの設定
+- SKIP_EXISTING_FILES: 同名の出力ファイルが既に存在する場合にスキップするかどうかの設定
+  <br>
+
+## config.txt
+
+```
+# ========= Config start =========
+QUALITY = 80
+INPUT_DIR = 'inputs/'
+OUTPUT_DIR = 'outputs/'
+INCLUDE_SUBDIRS = False
+IMG_OUTPUT_FILENAME_EXT = 'jpg'
+A1111_METADATA_PNG = True
+NOVELAI_METADATA_PNG = True
+COMFYUI_WORKFLOW_JSON = True
+SKIP_EXISTING_FILES = False
+# ========== Config end ==========
+```
+
+<br>
+
+# その他の設定変更等
 
 - Windows の bat ファイル起動でエラーの確認や変換状況を確認するために、処理完了後にコマンドラインを閉じないようにしたい場合は png2jpg.bat 内の@REM pause のコメントアウトを外してください。
   <br><br>
 
+# 必要要件
+
+Python3
+<br><br>
+
+# 必要ライブラリ
+
+以下の Python ライブラリを使用するため、入っていない場合はインストールします。
+
+- Pillow：画像の処理を行うためのライブラリ
+
+```
+pip install pillow
+```
+
+- piexif：Exif データの操作を行うためのライブラリ
+
+```
+pip install piexif
+```
+
+以下は Windows のみ
+
+- pywin32：Windows プラットフォームでファイルのタイムスタンプを設定するためのライブラリ
+
+```
+pip install pywin32
+```
+
+<br>
+
 # 変更履歴
+
+## [1.1.0] - 2024-06-13
+
+### 追加
+
+- config.txt によるオプション変更
+- サブディレクトリを含めた変換機能
+- 同名ファイルの上書きスキップ機能
 
 ## [1.0.1] - 2024-06-12
 
@@ -130,92 +154,125 @@ Released under the [MIT License](https://opensource.org/licenses/mit-license.php
 
 # English
 
-Here is the English translation of the content, with markdown formatting preserved:
+# Overview
+
+- Retains metadata of AI-generated images and converts PNG to JPEG.
+- Allows batch conversion, including subdirectories.
+- Can be used for purposes other than AI-generated images, as it transfers PNG metadata to JPEG Exif.
+
+<br><br>
+
+# Features
+
+- Supports images generated by Automatic1111, ComfyUI, and NovelAI.
+- Stores metadata from the original PNG image into the JPEG image's Exif.
+- Can simultaneously output dummy PNGs (a few kB) with metadata transferred from the original PNG. This maintains functionality for AI input even after conversion.
+- If a file with the same name exists in the output directory, it will overwrite by default, but can be set to skip. This allows additional conversions without reprocessing existing files.
+
+<br><br>
 
 # Description
 
-## 1. About Converting Automatic1111 Generated Images
+## 1. Conversion of Automatic1111 Generated Images
 
-- Converts PNG to JPEG while preserving the metadata that can be entered into Automatic1111.
-- The metadata (PNG Info) of the original image is stored in the Exif of the JPEG image.
-- The JPEG image can be loaded into Automatic1111's PNG Info, just like the original image.
-- You can additionally output a dummy png (a few kB) for input into other generative AIs. If you convert to JPEG, you won't be able to input it into other generative AIs (such as ComfyUI), but outputting a dummy png can address this issue. The default setting is on (changeable).
+- JPEG images can be read and used by Automatic1111's PNG Info similar to the original images.
+- Although JPEGs can't be used by other AIs like ComfyUI, outputting a dummy PNG retains input functionality.
 
-## 2. About Converting NovelAI Generated Images
+## 2. Conversion of NovelAI Generated Images
 
-- The metadata (PNG Info) of the original image is stored in the Exif of the JPEG image.
-- You can additionally output a dummy png (a few kB) for input into NovelAI (and Automatic1111). If you convert to JPEG, you won't be able to input it into NovelAI (and Automatic1111), but outputting a dummy png can address this issue. The default setting is on (changeable).
+- JPEGs can't be read by NovelAI or Automatic1111, but outputting a dummy PNG (a few kB) retains input functionality.
+- The dummy PNG can be used by both NovelAI and Automatic1111.
 
-## 3. About Converting ComfyUI Generated Images
+## 3. Conversion of ComfyUI Generated Images
 
-- The metadata (PNG Info) of the original image is stored in the Exif of the JPEG image.
-- You can additionally output a json file for Workflow input. If you convert to JPEG, you won't be able to input it into ComfyUI, but outputting a json file can address this issue. The default setting is on (changeable).
+- JPEGs can't be input into ComfyUI, but outputting a workflow input JSON retains input functionality.
 
-## 4. About Date Information
+## 4. Date Information
 
-The date information of the original image is carried over to the converted image.
+Transfers the date information from the original image to the converted image.
 
-- Windows: Last Modified Date, Creation Date
-- Mac, Linux: Last Modified Date
-  <br><br>
+- Windows: Modification date, Creation date
+- Mac, Linux: Modification date
+
+<br><br>
+
+# Usage
+
+1. Place the PNG images you want to convert in the `inputs` folder.
+2. For Windows, double-click `png2jpg.bat`. For Mac, Linux, etc., run `png2jpg.py` from the terminal.
+3. The JPEG images are saved in the `outputs` folder.
+
+<br><br>
 
 # Changing Options
 
-You can change the options in the Config section of png2jpg.py.
+- Options can be changed from `config.txt`.
+- If input values are missing or invalid, default values are applied.
+- `config.txt` is registered in `.gitignore`, so updates with `git pull` do not affect it.
 
-```
-# ========= Config start / 設定ここから =========
-# ディレクトリ / Directories
-INPUT_DIR = 'inputs/'
-OUTPUT_DIR = 'outputs/'
+## Option Items
 
-# JPEG品質 (0-100) / JPEG quality (0-100)
-QUALITY = 80
+- QUALITY: JPEG quality (0-100)
+- INPUT_DIR: Input directory (specify with relative or absolute path)
+- OUTPUT_DIR: Output directory (specify with relative or absolute path)
+- INCLUDE_SUBDIRS: Whether to include subdirectories (output images are saved in the same directory structure as the input)
+- IMG_OUTPUT_FILENAME_EXT: Output image extension ('jpg', 'jpeg', 'JPG', 'JPEG')
+- A1111_METADATA_PNG: Whether to output a dummy PNG for Automatic1111 images
+- NOVELAI_METADATA_PNG: Whether to output a dummy PNG for NovelAI images
+- COMFYUI_WORKFLOW_JSON: Whether to output a JSON for ComfyUI images
+- SKIP_EXISTING_FILES: Whether to skip processing if a file with the same name already exists
 
-# 出力画像拡張子（'jpg', 'jpeg', 'JPG', 'JPEG'）/ Output image file extension ('jpg', 'jpeg', 'JPG', 'JPEG')
-IMG_OUTPUT_FILENAME_EXT = 'jpg'
-
-# A1111画像の追加設定 / Additional settings for A1111 images
-# 他生成AI用のダミーpngを出力 / Output a dummy PNG file for other generation AIs
-# True / False
-A1111_METADATA_PNG = True
-
-# NovelAI画像の追加設定 / Additional settings for NovelAI images
-# NovelAI（及びA1111）入力用のダミーpngを出力 / Output a dummy PNG file for NovelAI (and A1111) input
-# True / False
-NOVELAI_METADATA_PNG = True
-
-# ComfyUI画像の追加設定 / Additional settings for ComfyUI images
-# ワークフロー入力用のjsonを出力 / Output a JSON file for Workflow input
-# True / False
-COMFYUI_WORKFLOW_JSON = True
-# ========= Config end / 設定ここまで ==========
-```
-
-# Prerequisites
-
-Python3 environment
 <br><br>
 
-# Preparation
+## config.txt
 
-Install the following libraries if they are not already installed:
+```
+# ========= Config start =========
+QUALITY = 80
+INPUT_DIR = 'inputs/'
+OUTPUT_DIR = 'outputs/'
+INCLUDE_SUBDIRS = False
+IMG_OUTPUT_FILENAME_EXT = 'jpg'
+A1111_METADATA_PNG = True
+NOVELAI_METADATA_PNG = True
+COMFYUI_WORKFLOW_JSON = True
+SKIP_EXISTING_FILES = False
+# ========== Config end ==========
+```
 
-- PIL
+<br>
+
+# Other Settings
+
+- To prevent the command line from closing after execution to check for errors or conversion status, uncomment `@REM pause` in `png2jpg.bat`.
+
+<br><br>
+
+# Requirements
+
+Python3
+
+<br><br>
+
+# Required Libraries
+
+The following Python libraries are used, install them if not already installed.
+
+- Pillow: For image processing
 
 ```
 pip install pillow
 ```
 
-- piexif
+- piexif: For manipulating Exif data
 
 ```
 pip install piexif
 ```
 
-Windows only
+Windows only:
 
-- pywin32
+- pywin32: For setting file timestamps on Windows platforms
 
 ```
 pip install pywin32
@@ -223,35 +280,33 @@ pip install pywin32
 
 <br>
 
-# Usage
-
-1. Place the PNG images you want to convert in the inputs folder.
-2. For Windows, double-click png2jpg.bat. For Mac, Linux, etc., run png2jpg.py from the terminal.
-3. The JPEG images will be saved in the outputs folder.
-   <br><br>
-
-# Changing Settings, etc.
-
-- If you're running the Windows bat file and want to keep the command line open after processing is complete so you can check for errors or conversion status, uncomment the @REM pause line in png2jpg.bat.
-  <br><br>
-
 # Changelog
+
+## [1.1.0] - 2024-06-13
+
+### Added
+
+- Option changes via `config.txt`
+- Conversion with subdirectories
+- Option to skip overwriting files with the same name
 
 ## [1.0.1] - 2024-06-12
 
 ### Fixed
 
-- Fixed spelling
+- Text corrections
 
 ## [1.0.0] - 2024-06-12
 
 ### Added
 
 - Initial release
-  <br><br>
+
+<br><br>
 
 # License
 
 Copyright © 2024 Takenoko  
 Released under the [MIT License](https://opensource.org/licenses/mit-license.php).
+
 <br><br><br>
